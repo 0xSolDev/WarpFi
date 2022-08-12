@@ -1,0 +1,23 @@
+name: CI
+
+# Controls when the action will run. 
+on:
+  # Triggers the workflow on push or pull request events
+  push:
+    branches: [development, master, feat/*]
+    paths: ['**.js', '**.sol']
+  pull_request:
+    branches: [development, master, feat/*]
+    paths: ['**.js', '**.sol']
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+      - name: Tests
+        run: |
+          npm install --no-lockfile
+          npm run prettier:solidity
+          npx hardhat test
